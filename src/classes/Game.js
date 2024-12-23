@@ -259,7 +259,7 @@ export class Game {
 
 		// in the public folder /assets/sfx/ there's a meow.mp3 file
 		// play that sound now
-		const audio = new Audio('/assets/sfx/meow.mp3');
+		const audio = new Audio('assets/sfx/meow.mp3');
 		audio.play();
 
 		// add pulls based on how many cats we've found

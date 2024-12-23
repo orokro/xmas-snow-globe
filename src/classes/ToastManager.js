@@ -75,7 +75,7 @@ class ToastManager {
 		// in the public folder /assets/sfx/ there's a ding.mp3 file
 		// play that sound now
 		setTimeout(() => {
-			const audio = new Audio('/assets/sfx/ding.mp3');
+			const audio = new Audio('assets/sfx/ding.mp3');
 			audio.play();
 		}, 500);
 
