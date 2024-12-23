@@ -17,7 +17,9 @@
 		<div class="imageLayer"></div>
 
 		<!-- gatcha layer - animated fun colors over -->
-		<div v-if="gameState.hideUI.value==true" class="gatchaLayer"></div>
+		<div v-if="
+			gameState.doingCapsuleAnimation.value==true || gameState.doingPullCameraAnimation.value"
+			class="gatchaLayer"></div>
 
 		<!-- black fade for when we just have the present -->
 		<div
@@ -151,6 +153,7 @@ const shouldShowBlackFade = computed(() => {
 			}
 
 		}// .blackFade
+
 	}// .bgLayers
 
 </style>

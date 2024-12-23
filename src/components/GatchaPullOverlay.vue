@@ -44,6 +44,15 @@
 			<img src="../assets/img/reli_ship.png" alt="Reli" />
 		</div>
 
+		<!-- quote box in the center of the screen -->
+		<div class="quoteBox" v-if="gameState.pickedQuote.value!=null">
+			<div class="quote">{{ gameState.pickedQuote.value.text }}</div>
+			<div class="author">From: {{ gameState.pickedQuote.value.from }}</div>
+			<div class="closeButtonRow">
+				<button @click="gameState.completePull()">Close</button>
+			</div>
+		</div>
+
 	</div>
 </template>
 <script setup>
@@ -61,6 +70,15 @@ const STAGE = {
 
 // variable for the stages of the curtain animation
 const stage = ref(STAGE.START);
+
+// define some props
+const props = defineProps({
+
+	// reference to our current game state
+	gameState: Object
+
+});
+
 
 // after we mount, immediately kick off the next stage
 onMounted(() => {
@@ -173,6 +191,66 @@ onMounted(() => {
 			}
 		}// &.horizontal
 
+		.quoteBox {
+
+			// center of the screen
+			position: absolute;
+			top: 40%;
+			left: 50%;
+			transform: translate(-50%, -50%) rotate(5deg);
+
+			width: 300px;
+
+			// hand writing font
+			font-family: 'Dancing Script', cursive;
+			color: rgb(58, 18, 110);
+
+			// semi-transparent box
+			background: rgba(255, 255, 255, 1);
+			padding: 20px 20px 60px 20px;
+			border-radius: 15px;
+
+			// the quote text
+			.quote {
+				font-size: 20px;
+				font-size: italic;
+				font-weight: bolder;
+				text-align: center;
+			}// .quote
+
+			// author style
+			.author {
+				font-size: 15px;
+				font-style: italic;
+				text-align: right;
+				margin-top: 10px;
+			}// .author
+
+			// the row on the button holding the button
+			.closeButtonRow {
+
+				position: absolute;
+				inset: auto 0px 0px 0px;
+				height: 45px;
+
+				text-align: center;
+
+				// make the button look nice
+				button {
+					background: rgb(58, 18, 110);
+					color: white;
+					font-size: 20px;
+					font-weight: bolder;
+					padding: 5px 10px;
+					border-radius: 10px;
+					cursor: pointer;
+					transition: background 0.5s;
+
+				}// button
+
+			}// .closeButtonRow
+
+		}// .quoteBox
 
 	}// .gatchaPullOverlay
 

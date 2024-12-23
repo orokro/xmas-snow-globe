@@ -45,7 +45,7 @@
 		</div>
 
 		<!-- layer that animates for beginning of pull -->
-		<GatchaPullOverlay v-if="gameState.doingPull.value" />
+		<GatchaPullOverlay v-if="gameState.doingPull.value"  :gameState="gameState" />
 
 	</div>
 

@@ -86,6 +86,9 @@ export class Game {
 		// true during capsule animation
 		this.doingCapsuleAnimation = ref(false);
 
+		// the picked quote
+		this.pickedQuote = shallowRef(null);
+
 		// initialize our game
 		this.initGame();
 
@@ -181,7 +184,7 @@ export class Game {
 			this.buildKittehRaycaster();
 
 			// build a camera animator for when we do gatcha pulls later on
-			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 2, 4, 2);
+			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 2, 4, 0.7);
 
 			// build a capsule animator for when we do gatcha pulls later on
 			this.capsuleAnimator = new CapsuleAnimator(this.scene.$('#Capsule').children, () => {});
@@ -329,6 +332,7 @@ export class Game {
 		// if we found all the cats, show the modal
 		if(this.allCatsFound.value){
 			this.modalManager.showModal('You found all the kittehs!', 'Congratulations!');
+			this.gatchaPulls.value += 69;
 		}
 	}
 
@@ -374,20 +378,65 @@ export class Game {
 
 					this.doingCapsuleAnimation.value = false;
 
-					// wait a bit & reset stuffs
-					setTimeout(()=>{
-
-
-						this.capsuleAnimator.resetAnimations();
-						this.doingPull.value = false;
-						this.hideUI.value = false;
-						this.scene.setCamera(this.scene.camera);
-					}, 2000);
+					// check if forceFirst
+					// pick a random quote we haven't seen yet
+					this.pickRandomQuote();
 				});
 			});
 
 		}, 2000);
 
+	}
+
+
+	/**
+	 * Picks a random quote from the gatchaQuotesSeen array
+	 */
+	pickRandomQuote(){
+
+		// so we want to pick the quote that has force_first set true if we haven't seen it yet
+		// otherwise, pick a random one we haven't seen yet
+		const quotes = this.gatchaQuotesSeen.value;
+
+		// get the first quote that has force_first set true
+		let quote = quotes.find(quote => quote.force_first && !quote.found);
+
+		// if we didn't find one, pick a random one
+		if(!quote){
+			quote = quotes.find(quote => !quote.found);
+		}
+
+		if(quote){
+			quote.found = true;
+			this.gatchaQuotesSeen.value = [];
+			this.gatchaQuotesSeen.value = quotes;
+
+			this.pickedQuote.value = quote;
+
+			// if the gatcha menu is closed, increment its bubble counter
+			if(this.gatchaMenuOpen.value === false)
+				this.gatchaMenuCount.value++;
+
+			// check if we found all the quotes
+			this.allGatchaQuotesFound.value = quotes.every(quote => quote.found);
+
+			// if so, zero out the pulls
+			if(this.allGatchaQuotesFound.value)
+				this.gatchaPulls.value = 0;
+		}
+
+	}
+
+	/**
+	 * Completes the gatcha pull sequence & closes the UI / resets variables
+	 */
+	completePull(){
+
+		this.capsuleAnimator.resetAnimations();
+		this.doingPull.value = false;
+		this.hideUI.value = false;
+		this.scene.setCamera(this.scene.camera);
+		this.pickedQuote.value = null;
 	}
 
 }

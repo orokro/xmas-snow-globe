@@ -148,4 +148,3 @@ class PullCameraAnimator {
 }
 
 export default PullCameraAnimator;
-
