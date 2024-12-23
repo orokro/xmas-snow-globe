@@ -19,13 +19,21 @@
 		<!-- gatcha layer - animated fun colors over -->
 		<div v-if="gameState.hideUI.value==true" class="gatchaLayer"></div>
 
+		<!-- black fade for when we just have the present -->
+		<div
+			class="blackFade"
+			:class="{hide: shouldShowBlackFade == false }"
+		></div>
 	</div>
 
 </template>
 <script setup>
 
 // vue
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+
+// app
+import { Game } from '../classes/Game';
 
 // define some props
 const props = defineProps({
@@ -33,6 +41,14 @@ const props = defineProps({
 	// reference to our current game state
 	gameState: Object
 
+});
+
+// computed method to see if we should show the black fade
+const shouldShowBlackFade = computed(() => {
+
+	const gameIsLoading = props.gameState.mode.value == Game.MODE.LOADING;
+	const gameIsUnpacking = props.gameState.mode.value == Game.MODE.UNPACKING;
+	return gameIsLoading || gameIsUnpacking;
 });
 
 </script>
@@ -113,6 +129,28 @@ const props = defineProps({
 			}
 		}// @keyframes gatchaColors
 
+		// black fade for when we just have the present
+		.blackFade {
+
+			// fill parent with black
+			position: absolute;
+			inset: 0px 0px 0px 0px;
+
+			// black bg
+			background: rgb(29, 29, 29);
+
+			// fade in/out
+			transition: opacity 2s;
+
+			// hide by default
+			opacity: 1;
+
+			// show when we're unpacking
+			&.hide {
+				opacity: 0;
+			}
+
+		}// .blackFade
 	}// .bgLayers
 
 </style>

@@ -37,6 +37,9 @@ export default class ThreeScene {
 		this.sceneObjectsByID = new Map();
 		this.sceneObjectsByClass = new Map();
 
+		// which camera to use
+		this.cameraToUse = null;
+
 		// build our ThreeJS scene (this is async b/c stuffs have to load)
 		this.buildThreeScene();
 
@@ -61,10 +64,30 @@ export default class ThreeScene {
 
 		// make our main camera
 		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-		this.camera.position.z = 5;
+		const initialZoomScale = 0.5;
+		this.camera.position.z = 10 * initialZoomScale;
+		this.camera.position.y = 7 * initialZoomScale;
+
+		// initial camera to use
+		this.cameraToUse = this.camera;
+
+		// make a camera used for the pull animation zoomin'
+		this.pullCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		this.pullCamera.position.z = 10;
+		this.pullCamera.position.y = 7;
+
+		// make a camera used specifically for the capsule opening animation
+		this.capsuleCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		this.capsuleCamera.position.z = 5;
+		this.capsuleCamera.position.y = 0;
 
 		// make a new OrbitControls
 		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
+		// set orbit rotation to default of 40 degrees on x axis
+		this.controls.target.set(0, 0, 0);
+		this.controls.update();
+
 
 		// let's wait for the reflection map to load
 		await this.loadReflectionMap();
@@ -353,6 +376,12 @@ export default class ThreeScene {
 				this.camera.aspect = cr.width / cr.height;
 				this.camera.updateProjectionMatrix();
 				this.renderer.render(this.scene, this.camera);
+
+				 // update our other two cameras
+				this.pullCamera.aspect = cr.width / cr.height;
+				this.pullCamera.updateProjectionMatrix();
+				this.capsuleCamera.aspect = cr.width / cr.height;
+				this.capsuleCamera.updateProjectionMatrix();
 			}
 		});
 
@@ -409,6 +438,10 @@ export default class ThreeScene {
 		this.render();
 	}
 
+	setCamera(camera){
+		this.cameraToUse = camera;
+	}
+
 
 	/**
 	 * This method will render our scene.
@@ -416,7 +449,7 @@ export default class ThreeScene {
 	 * It's called when we want to render the scene, but not animate it.
 	 */
 	render(){
-		this.renderer.render(this.scene, this.camera);
+		this.renderer.render(this.scene, this.cameraToUse);
 	}
 
 }

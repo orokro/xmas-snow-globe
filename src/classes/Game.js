@@ -14,6 +14,9 @@ import { ref, shallowRef, reactive } from 'vue';
 import ThreeScene from './ThreeScene';
 import RaycasterManager from './RaycasterManager';
 import ToastManager from './ToastManager';
+import PresentUnboxing from './PresentUnboxing';
+import CapsuleAnimator from './CapsuleAnimator';
+import PullCameraAnimator from './PullCameraAnimator';
 
 // import our data
 import { cats, gatchaQuotes } from './Data';
@@ -77,6 +80,12 @@ export class Game {
 		this.doingPull = ref(false);
 		this.hideUI = ref(false);
 
+		// true during pull camera animation
+		this.doingPullCameraAnimation = ref(false);
+
+		// true during capsule animation
+		this.doingCapsuleAnimation = ref(false);
+
 		// initialize our game
 		this.initGame();
 
@@ -131,16 +140,52 @@ export class Game {
 	beginGame(){
 
 		// begin unpacking the snow globe
-		this.mode = Game.MODE.UNPACKING;
+		this.mode.value = Game.MODE.UNPACKING;
 
 		//show first modal
-		this.modalManager.showModal('Find some hidden kittehs!', 'Hey You!', () => {
-			this.mode = Game.MODE.PLAYING;
+		this.modalManager.showModal('Click the present to unwrap it!', 'Hey You!', () => {
+			this.mode.value = Game.MODE.UNPACKING;
+
+			// skip unpacking for now
+			this.mode.value = Game.MODE.PLAYING;
+			this.scene.$('#GiftBox').visible = false;
 		});
 
 		// set up a raycaster looking for our cats
 		setTimeout(()=>{
+
+			// get the present object from the scene & make sure present is visible
+			const presentObjs = this.scene.$('#GiftBox').children;
+			this.scene.$('#GiftBox').visible = true;
+
+			// make a new PresentUnboxing object
+			this.presentUnboxing = new PresentUnboxing(presentObjs, this.scene, () => {
+
+				// set play mode
+				this.mode.value = Game.MODE.PLAYING;
+
+				// mix up the particles a bit
+				this.scene.particleSystem.stirUpParticles(.2);
+
+				// hide the present parts
+				this.scene.$('#GiftBox').visible = false;
+
+				//show kitteh modal
+				this.modalManager.showModal('Find some hidden kitties!', 'Hey You!', () => {
+
+				});
+
+			});
+
+			// build the raycaster to find cats
 			this.buildKittehRaycaster();
+
+			// build a camera animator for when we do gatcha pulls later on
+			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 50, 70, () => {});
+
+			// build a capsule animator for when we do gatcha pulls later on
+			this.capsuleAnimator = new CapsuleAnimator(this.scene.$('#Capsule').children, () => {});
+
 		}, 500);
 	}
 
@@ -162,6 +207,10 @@ export class Game {
 
 		// wait for hits on cats
 		this.catRaycaster.onHit((hit)=>{
+
+			// if we're not in playing mode, GTFO
+			if(this.mode.value !== Game.MODE.PLAYING)
+				return;
 
 			// our hit object might have userData.name with a #catName,
 			// or it might be a child of a cat object
@@ -189,6 +238,7 @@ export class Game {
 		});
 
 	}
+
 
 	/**
 	 * Shows or toggles one of our game menus
@@ -308,10 +358,46 @@ export class Game {
 			this.hideUI.value = true;
 		}, 1000);
 
+		// wait for our CSS curtain animation to finish before we continue
 		setTimeout(()=>{
-			this.doingPull.value = false;
-			this.hideUI.value = false;
-		}, 4000);
+
+			console.log('starting pull ani');
+
+			// start the pull camera animation
+			this.doingPullCameraAnimation.value = true;
+			this.scene.setCamera(this.scene.pullCamera);
+			this.pullCameraAnimator.start(() => {
+
+				console.log('starting capsule ani');
+
+				this.doingPullCameraAnimation.value = false;
+				this.scene.setCamera(this.scene.capsuleCamera);
+
+				// start the capsule animation
+				this.doingCapsuleAnimation.value = true;
+				this.capsuleAnimator.start(() => {
+
+					console.log('finished capsule ani');
+
+					this.doingCapsuleAnimation.value = false;
+
+
+					// wait a bit & reset stuffs
+					setTimeout(()=>{
+
+						console.log('d');
+
+
+						this.capsuleAnimator.resetAnimations();
+						this.doingPull.value = false;
+						this.hideUI.value = false;
+						this.scene.setCamera(this.scene.camera);
+					}, 2000);
+				});
+			});
+
+		}, 2000);
+
 	}
 
 }

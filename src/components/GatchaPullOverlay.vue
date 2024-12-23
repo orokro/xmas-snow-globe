@@ -74,7 +74,7 @@ onMounted(() => {
 	// horizontal animation takes 1 second, so start the vertical stage after that
 	setTimeout(() => {
 		stage.value = STAGE.VERTICAL;
-	}, 1500);
+	}, 1400);
 
 });
 
@@ -103,7 +103,7 @@ onMounted(() => {
 			position: absolute;
 
 			// animate in from left
-			transition: left 1s ease-in-out, top 1s;
+			transition: left 1.3s ease-in-out, top 1s;
 
 			background: rgba(30, 170, 180, 1);
 
@@ -144,7 +144,7 @@ onMounted(() => {
 			left: -20%;
 			transform: translateY(-50%) scale(0.5);
 
-			transition: left 1s ease-in-out;
+			transition: left 1.3s ease-in-out;
 		}// .reli
 
 		// first stage - curtains & reli move in left-to-right horizontally
