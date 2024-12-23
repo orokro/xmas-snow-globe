@@ -246,7 +246,7 @@ export default class ThreeScene {
 	setUpLights(){
 
 		// make a new ambient light
-		const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
+		const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
 		this.scene.add(ambientLight);
 
 	}
