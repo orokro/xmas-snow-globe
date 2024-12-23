@@ -37,12 +37,15 @@ export class Game {
 	/**
 	 *
 	 * @param {ThreeScene} scene - reference to the ThreeJS scene that was
+	 * @param {ToastManager} toastManager - reference to the ToastManager
+	 * @param {ModalManager} modalManager - reference to the ModalManager
 	 */
-	constructor(scene, toastManager){
+	constructor(scene, toastManager, modalManager){
 
 		// save our scene & state managers
 		this.scene = scene;
 		this.toastManager = toastManager;
+		this.modalManager = modalManager;
 
 		// true until scene is ready
 		this.mode = ref(Game.MODE.LOADING);
@@ -106,8 +109,6 @@ export class Game {
 		// scramble the quotes
 		quotes = quotes.sort(() => Math.random() - 0.5);
 		this.gatchaQuotesSeen.value = quotes;
-
-		this.gatchaQuotesSeen.value[2].found = true;
 	}
 
 
@@ -121,6 +122,11 @@ export class Game {
 
 		// for debug
 		console.log('game begin', this);
+
+		//show first modal
+		this.modalManager.showModal('Find some hidden kittehs!', 'Hey You', () => {
+			this.mode = Game.MODE.PLAYING;
+		});
 
 		// set up a raycaster looking for our cats
 		setTimeout(()=>{
@@ -261,6 +267,10 @@ export class Game {
 		// show a toast message
 		this.toastManager.showToastMsg(`You found ${foundCat.name} Kitteh!`, `+${totalCatsFound} Gatcha Pulls!`);
 
+		// if we found all the cats, show the modal
+		if(this.allCatsFound.value){
+			this.modalManager.showModal('You found all the kittehs!', 'Congratulations!');
+		}
 	}
 
 }
