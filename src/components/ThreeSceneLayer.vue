@@ -37,7 +37,7 @@ onMounted(() => {
 	// make sure we have a scene
 	if (!props.scene) return;
 
-	console.log(props.scene);
+	// for e-z access we'll add it to the window for debugging
 	window.s = props.scene;
 
 	// mount the scene to the sceneWrapper
