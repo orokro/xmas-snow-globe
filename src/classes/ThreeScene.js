@@ -296,7 +296,7 @@ export default class ThreeScene {
 
 		console.log('Objects by ID:');
 		this.sceneObjectsByID.forEach((value, key) => {
-			if(printObject)
+			if(printObject==false)
 				console.log(`#${key}`);
 			else
 				console.log(`#${key}`, value);
@@ -304,7 +304,7 @@ export default class ThreeScene {
 
 		console.log('Objects by Class:');
 		this.sceneObjectsByClass.forEach((value, key) => {
-			if(printObject)
+			if(printObject==false)
 				console.log(`.${key}`);
 			else
 				console.log(`.${key}`, value);
