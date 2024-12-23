@@ -131,6 +131,7 @@ const props = defineProps({
 					inset: 7px 0px 0px 0px;
 
 					color: rgb(255, 84, 192);
+					color: #fcd9f7;
 					font-size: 60px;
 					font-weight: bolder;
 					font-style: italic;
