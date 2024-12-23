@@ -16,8 +16,6 @@
 		   }"
 		   :title="iconSettings.text"
 		>
-
-
 	</div>
 
 </template>
@@ -89,6 +87,7 @@ const iconSettings = computed(() => {
 			transform: scale(1.39);
 			z-index: 1000;
 		}
+
 	}// .iconBox
 
 </style>

@@ -15,6 +15,7 @@
 	<!-- the main box where we'll spawn contents	-->
 	<div
 		class="mainMenuBox"
+		:class="{ isOpen: props.isOpen }"
 		:style="{
 			width: props.size + 'px',
 			top: props.position.top + 'px',
@@ -81,6 +82,17 @@ const props = defineProps({
 
 	// the main menu box, which is a transparent
 	.mainMenuBox {
+
+		// invisible & no interaction if hidden
+		opacity: 0.0;
+		pointer-events: none !important;
+
+		// animate in when open
+		transition: opacity 0.15s ease-out;
+		&.isOpen {
+			opacity: 1;
+			pointer-events: initial  !important;
+		}
 
 		// positioned abso-lutely
 		position: absolute;

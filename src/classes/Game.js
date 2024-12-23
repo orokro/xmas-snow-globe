@@ -9,7 +9,10 @@
 
 // vue
 import { ref, shallowRef, reactive } from 'vue';
+
+// app imports
 import ThreeScene from './ThreeScene';
+import RaycasterManager from './RaycasterManager';
 
 // import our data
 import { cats, gatchaQuotes } from './Data';
@@ -91,8 +94,6 @@ export class Game {
 				found: false,
 			};
 		});
-
-		this.foundCats.value[2].found = true;
 	}
 
 
@@ -106,8 +107,57 @@ export class Game {
 
 		// for debug
 		console.log('game begin', this);
+
+		// set up a raycaster looking for our cats
+		setTimeout(()=>{
+			this.buildKittehRaycaster();
+		}, 500);
 	}
 
+
+	/**
+	 * Build a ray caster that responds to hidden kittehs
+	 */
+	buildKittehRaycaster(){
+
+		// this will be a new RaycasterManager that will look for our cats
+		this.catRaycaster = new RaycasterManager(this.scene);
+
+		// filter the raycaster to only look for cats
+		const filter = [
+			...this.scene.$('.cat'),
+		];
+		this.catRaycaster.setFilter(filter);
+
+		// wait for hits on cats
+		this.catRaycaster.onHit((hit)=>{
+
+			// our hit object might have userData.name with a #catName,
+			// or it might be a child of a cat object
+			// so recursively find the cat object's name
+			let catObjectName = hit.object.userData.name;
+			while(!catObjectName){
+				hit.object = hit.object.parent;
+				catObjectName = hit.object.userData.name;
+
+				// escape if we have no parent
+				if(!hit.object.parent)
+					break;
+			}// wend
+
+			// if we found a cat, call the findCat function
+			if(catObjectName){
+
+				// the name might be a raw string, but it might also look like "#catName .class1 .class2"
+				catObjectName = catObjectName.split(' ')[0].replace('#', '').toLowerCase();
+
+				// make sure this is in our list of cats from the imported data
+				if(cats.find(cat => cat.object.toLowerCase() === catObjectName))
+					this.findCat(catObjectName);
+			}
+		});
+
+	}
 
 	/**
 	 * Shows or toggles one of our game menus
@@ -137,9 +187,11 @@ export class Game {
 		// open the requested menu
 		if(menu === Game.MENU.CATS){
 			this.catsMenuOpen.value = true;
+			this.catsMenuCount.value = 0;
 		}
 		else if(menu === Game.MENU.GATCHA){
 			this.gatchaMenuOpen.value = true;
+			this.gatchaMenuCount.value = 0;
 		}
 	}
 
@@ -160,6 +212,12 @@ export class Game {
 
 		// find the cat in our list & set it to true
 		const foundCat = foundCats.find(cat => cat.object.toLowerCase() === catObjectName);
+
+		// if it was already found, ignore it
+		if(foundCat.found)
+			return;
+
+		// mark the cat as found
 		foundCat.found = true;
 
 		// clear the list & reset it
@@ -168,6 +226,15 @@ export class Game {
 
 		// check if all cats are found
 		this.allCatsFound.value = foundCats.every(cat => cat.found);
+
+		// if the cats menu is closed, increment its bubble counter
+		if(this.catsMenuOpen.value === false)
+			this.catsMenuCount.value++;
+
+		// in the public folder /assets/sfx/ there's a meow.mp3 file
+		// play that sound now
+		const audio = new Audio('/assets/sfx/meow.mp3');
+		audio.play();
 	}
 
 }

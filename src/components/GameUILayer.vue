@@ -11,11 +11,11 @@
 
 		<!-- our two menus -->
 		<CatsMenu
-			v-if="gameState.catsMenuOpen.value"
+			:isOpen="gameState.catsMenuOpen.value"
 			:gameState="gameState"
 		/>
 		<GatchaMenu
-			v-if="gameState.gatchaMenuOpen.value"
+			:isOpen="gameState.gatchaMenuOpen.value"
 			:gameState="gameState"
 		/>
 
@@ -23,11 +23,13 @@
 		<MenuIcon
 			:icon="`cat_menu_icon`"
 			:left="30"
+			:notificationCount="gameState.catsMenuCount.value"
 			@click="toggleCatsMenu"
 		/>
 		<MenuIcon
 			:icon="`gatcha_menu_icon`"
 			:left="130"
+			:notificationCount="gameState.gatchaMenuCount.value"
 			@click="toggleGatchaMenu"
 		/>
 

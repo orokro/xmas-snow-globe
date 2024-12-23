@@ -13,7 +13,6 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { parse } from 'vue/compiler-sfc';
 
 // import our custom particle system, aww yiss
 import { SnowGlobeParticleSystem } from './SnowGlobeParticleSystem.js';
@@ -327,6 +326,9 @@ export default class ThreeScene {
 
 		// this depends on the renderer being ready, so we'll wait for that
 		this.ifOrWhenSceneIsReady(() => {
+
+			// save reference to the container element
+			this.renderContainer = targetEl;
 
 			// mount the scene to a specific DOM element
 			targetEl.appendChild(this.renderer.domElement);
