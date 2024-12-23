@@ -15,6 +15,9 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { parse } from 'vue/compiler-sfc';
 
+// import our custom particle system, aww yiss
+import { SnowGlobeParticleSystem } from './SnowGlobeParticleSystem.js';
+
 // make ThreeJS Scene class
 export default class ThreeScene {
 
@@ -80,6 +83,9 @@ export default class ThreeScene {
 		// set up the lights in our scene
 		this.setUpLights();
 
+		// set our our custom snow particle system
+		this.buildParticleSystem();
+
 		// now that scene is entirely built, mark it as ready
 		this.setSceneReady();
 	}
@@ -123,6 +129,34 @@ export default class ThreeScene {
 
 		// add the GLTF scene to our main scene
 		this.scene.add(this.gltfScene.scene);
+	}
+
+
+	/**
+	 * Builds our custom particle system for the snow globe
+	 */
+	buildParticleSystem(){
+
+		// get the globe glass object, because we'll use it's center to place the particle system
+		const globeGlass = this.$('#GlobeGlass');
+
+		// get the center of the globe glass, in world space
+		const globeGlassCenter = new THREE.Vector3();
+		globeGlass.getWorldPosition(globeGlassCenter);
+
+		// we should also measure the radius of the globe glass, so we can place the particle system inside it
+		const globeGlassSize = new THREE.Box3().setFromObject(globeGlass);
+		const globeGlassRadius = globeGlassSize.getSize(new THREE.Vector3()).length() / 3.5;
+
+		// make a new particle system
+		const particleCount = 2000;
+		this.particleSystem = new SnowGlobeParticleSystem(particleCount, globeGlassRadius, this.camera, this.controls);
+
+		// add the particle system to the scene
+		this.scene.add(this.particleSystem);
+
+		// move the particle system to the center of the globe glass
+		this.particleSystem.position.copy(globeGlassCenter);
 	}
 
 
@@ -256,19 +290,25 @@ export default class ThreeScene {
 	 * Function for debug, to print out all the ids and class names we found in the scene
 	 * (this is just for debugging, not used in the actual app)
 	 *
+	 * @param {boolean} [printObject=false] - whether to print the object itself
 	 */
-	printObjects(){
+	printObjects(printObject=false){
 
 		console.log('Objects by ID:');
 		this.sceneObjectsByID.forEach((value, key) => {
-			console.log(`#${key}`);
+			if(printObject)
+				console.log(`#${key}`);
+			else
+				console.log(`#${key}`, value);
 		});
 
 		console.log('Objects by Class:');
 		this.sceneObjectsByClass.forEach((value, key) => {
-			console.log(`.${key}`);
+			if(printObject)
+				console.log(`.${key}`);
+			else
+				console.log(`.${key}`, value);
 		});
-
 	}
 
 
@@ -362,6 +402,8 @@ export default class ThreeScene {
 	 */
 	animate() {
 		requestAnimationFrame(() => this.animate());
+		if(this.particleSystem)
+			this.particleSystem.update();
 		this.render();
 	}
 
