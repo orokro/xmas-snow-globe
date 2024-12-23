@@ -1,0 +1,50 @@
+{
+	"env": {
+		"node": true,
+		"es2021": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:vue/vue3-essential"
+	],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"plugins": [
+		"vue"
+	],
+	"rules": {
+		"vue/no-use-v-if-with-v-for": "off",
+		"indent": [
+			"error",
+			"tab"
+		],
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
+		"quotes": [
+			"error",
+			"single"
+		],
+		"semi": [
+			"error",
+			"always"
+		],
+		"no-unused-vars": "off",
+		// note my ThreeScene.js file uses Async promise handlers.
+		// so turning this off.
+		// TODO in future: see if ThreeScene.js actually needs them async
+		"no-async-promise-executor": "off",
+		"no-fallthrough": "off",
+		"no-constant-condition": "off",
+		"vue/no-mutating-props": "off",
+		"no-case-declarations": "off",
+		"no-inner-declarations": "off"
+	},
+	"globals": {
+		"electronAPI": "readonly",
+		"electronClipboard": "readonly"
+	}
+}

@@ -1,20 +1,21 @@
 <!--
-  App.vue
-  -------
+	App.vue
+	-------
 
-  Main entry point / root component of the App.
+	Main entry point / root component of the App.
 -->
 <template>
 
-  <main>
-    yo
-  </main>
+	<main>
+		<BackgroundLayers/>
+	</main>
 </template>
-
 <script setup>
 
-</script>
+	// components
+	import BackgroundLayers from './components/BackgroundLayers.vue';
 
+</script>
 <style lang="scss" scoped>
 
 
