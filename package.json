@@ -10,7 +10,10 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "chroma-js": "^2.4.2",
     "sass": "^1.83.0",
+    "three": "^0.157.0",
+    "three-addons": "^1.2.0",
     "vue": "^3.5.13"
   },
   "devDependencies": {

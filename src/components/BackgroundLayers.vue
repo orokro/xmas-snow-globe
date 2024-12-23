@@ -34,6 +34,7 @@
 		// black bg
 		background: black;
 
+
 		// the purple gradient
 		.gradientLayer {
 
@@ -43,7 +44,9 @@
 
 			// purple gradient
 			background: linear-gradient(180deg, #4E2A77 0%, #1A1A3A 100%);
+
 		}// .gradientLayer
+
 
 		// the Reli xmas themed image layer
 		.imageLayer {
