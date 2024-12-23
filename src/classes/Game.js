@@ -87,13 +87,19 @@ export class Game {
 		});
 
 		// reset the gatcha quotes
-		this.gatchaQuotesSeen.value = gatchaQuotes.map((quote, i) => {
+		let quotes = gatchaQuotes.map((quote, i) => {
 			return {
 				...quote,
 				id: `quote_${i}`,
 				found: false,
 			};
 		});
+
+		// scramble the quotes
+		quotes = quotes.sort(() => Math.random() - 0.5);
+		this.gatchaQuotesSeen.value = quotes;
+
+		this.gatchaQuotesSeen.value[2].found = true;
 	}
 
 
@@ -128,6 +134,7 @@ export class Game {
 			...this.scene.$('.cat'),
 		];
 		this.catRaycaster.setFilter(filter);
+		// this.catRaycaster.setBaseFilter(this.scene.$('#Ground'));
 
 		// wait for hits on cats
 		this.catRaycaster.onHit((hit)=>{

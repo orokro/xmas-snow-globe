@@ -84,7 +84,8 @@ export const gatchaQuotes = [
 	},
 	{
 		from: 'Orokro',
-		text: 'I herd u liek snow globes',
+		text: 'I herd u liek snow globes. Merry Crimmas!',
+		force_first: true,
 	},
 	{
 		from: 'Don',

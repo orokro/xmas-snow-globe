@@ -38,6 +38,7 @@ class RaycasterManager {
 		this.listeners = [];
 
 		// optional filter for objects to raycast against
+		this.baseFilter = null;
 		this.filter = null;
 	}
 
@@ -77,7 +78,8 @@ class RaycasterManager {
 		this.raycaster.setFromCamera(this.mouse, this.camera);
 
 		// Calculate objects intersecting the picking ray
-		const intersects = this.raycaster.intersectObjects(this.scene.children, true);
+		const filterBaseObject = this.baseObject ? this.baseObject.children : this.scene.children;
+		const intersects = this.raycaster.intersectObjects(filterBaseObject);
 
 		// Filter the intersects if a filter is set
 		const filteredIntersects = this.filter ?
@@ -90,6 +92,16 @@ class RaycasterManager {
 				listener(filteredIntersects[0]);
 			}
 		}
+	}
+
+
+	/**
+	 * Set the object we use for the ray caster base object
+	 *
+	 * @param {THREE.Object3D} baseObject - the ThreeJS object
+	 */
+	setBaseFilter(baseObject){
+		this.baseFilter = baseObject;
 	}
 
 

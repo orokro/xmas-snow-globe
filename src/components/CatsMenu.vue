@@ -26,6 +26,7 @@
 				:cat="cat"
 			/>
 		</div>
+
 	</MenuPanel>
 
 </template>
