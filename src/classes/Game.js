@@ -181,7 +181,7 @@ export class Game {
 			this.buildKittehRaycaster();
 
 			// build a camera animator for when we do gatcha pulls later on
-			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 50, 70, () => {});
+			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 2, 4, 2);
 
 			// build a capsule animator for when we do gatcha pulls later on
 			this.capsuleAnimator = new CapsuleAnimator(this.scene.$('#Capsule').children, () => {});
@@ -203,7 +203,6 @@ export class Game {
 			...this.scene.$('.cat'),
 		];
 		this.catRaycaster.setFilter(filter);
-		// this.catRaycaster.setBaseFilter(this.scene.$('#Ground'));
 
 		// wait for hits on cats
 		this.catRaycaster.onHit((hit)=>{
@@ -361,14 +360,10 @@ export class Game {
 		// wait for our CSS curtain animation to finish before we continue
 		setTimeout(()=>{
 
-			console.log('starting pull ani');
-
 			// start the pull camera animation
 			this.doingPullCameraAnimation.value = true;
 			this.scene.setCamera(this.scene.pullCamera);
 			this.pullCameraAnimator.start(() => {
-
-				console.log('starting capsule ani');
 
 				this.doingPullCameraAnimation.value = false;
 				this.scene.setCamera(this.scene.capsuleCamera);
@@ -377,15 +372,10 @@ export class Game {
 				this.doingCapsuleAnimation.value = true;
 				this.capsuleAnimator.start(() => {
 
-					console.log('finished capsule ani');
-
 					this.doingCapsuleAnimation.value = false;
-
 
 					// wait a bit & reset stuffs
 					setTimeout(()=>{
-
-						console.log('d');
 
 
 						this.capsuleAnimator.resetAnimations();
