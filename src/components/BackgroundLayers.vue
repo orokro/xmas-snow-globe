@@ -16,10 +16,24 @@
 		<!-- this layer will use CSS-blending mix-modes to blend a texture over the gradient -->
 		<div class="imageLayer"></div>
 
+		<!-- gatcha layer - animated fun colors over -->
+		<div v-if="gameState.hideUI.value==true" class="gatchaLayer"></div>
+
 	</div>
 
 </template>
 <script setup>
+
+// vue
+import { ref, onMounted } from 'vue';
+
+// define some props
+const props = defineProps({
+
+	// reference to our current game state
+	gameState: Object
+
+});
 
 </script>
 <style lang="scss" scoped>
@@ -63,6 +77,41 @@
 			mix-blend-mode: overlay;
 
 		}// .imageLayer
+
+		// the party colors layer gradient
+		.gatchaLayer {
+
+			// fill parent with purple gradient
+			position: absolute;
+			inset: 0px 0px 0px 0px;
+
+			// animate background color
+			animation: gatchaColors 1s infinite;
+			animation-timing-function: linear;
+
+			// mix to brighten bg
+			mix-blend-mode: overlay;
+
+		}// .gatchaLayer
+
+		// keyframes for the gatcha layer
+		@keyframes gatchaColors {
+			0% {
+				background: linear-gradient(180deg, #FF0000 0%, #FF0000 100%);
+			}
+			25% {
+				background: linear-gradient(180deg, #9d00ff 0%, #9d00ff 100%);
+			}
+			50% {
+				background: linear-gradient(180deg, #00FF00 0%, #00FF00 100%);
+			}
+			75% {
+				background: linear-gradient(180deg, #0000FF 0%, #0000FF 100%);
+			}
+			100% {
+				background: linear-gradient(180deg, #2a9717 0%, #2a9717 100%);
+			}
+		}// @keyframes gatchaColors
 
 	}// .bgLayers
 

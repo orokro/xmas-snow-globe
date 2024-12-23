@@ -73,6 +73,10 @@ export class Game {
 		// true after we have at least one pull
 		this.gatchaUnlocked = ref(false);
 
+		// true when we're doing a gatcha pull & separate variable to hide UI during pull
+		this.doingPull = ref(false);
+		this.hideUI = ref(false);
+
 		// initialize our game
 		this.initGame();
 
@@ -117,6 +121,7 @@ export class Game {
 		this.gatchaMenuCount.value = 0;
 		this.gatchaPulls.value = 0;
 		this.gatchaUnlocked.value = false;
+		this.doingPull.value = false;
 	}
 
 
@@ -276,6 +281,37 @@ export class Game {
 		if(this.allCatsFound.value){
 			this.modalManager.showModal('You found all the kittehs!', 'Congratulations!');
 		}
+	}
+
+
+	/**
+	 * Starts gatcha pull animate sequence
+	 */
+	doPull(){
+
+		// gtfo if no pulls
+		if(this.gatchaPulls.value < 1)
+			return;
+
+		// if we're already doing a pull, ignore
+		if(this.doingPull.value)
+			return;
+
+		// decrement the pulls
+		// this.gatchaPulls.value--;
+
+		// show the gatcha menu
+		this.doingPull.value = true;
+
+		// hide the UI after 1 second
+		setTimeout(()=>{
+			this.hideUI.value = true;
+		}, 1000);
+
+		setTimeout(()=>{
+			this.doingPull.value = false;
+			this.hideUI.value = false;
+		}, 4000);
 	}
 
 }

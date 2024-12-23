@@ -15,6 +15,7 @@
 			'gatchaEnabled': gameState.gatchaUnlocked.value
 		}"
 		title="Lets gooooooooo!"
+		@click="gameState.doPull()"
 	>
 
 		<!-- this layer will be the "shadow" for the button top -->

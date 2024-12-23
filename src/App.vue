@@ -9,7 +9,7 @@
 	<main>
 
 		<!-- this will render our background layer stack (i.e. gradient, texture, etc ) -->
-		<BackgroundLayers/>
+		<BackgroundLayers :gameState="game"/>
 
 		<!-- this will mount our threeJS scene when ready -->
 		<ThreeSceneLayer :scene="scene"/>

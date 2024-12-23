@@ -9,6 +9,8 @@
 	<!-- main layer wrapper -->
 	<div class="gameUILayer">
 
+		<div v-show="gameState.hideUI.value==false">
+
 		<!-- our two menus -->
 		<CatsMenu
 			:isOpen="gameState.catsMenuOpen.value"
@@ -36,6 +38,11 @@
 		<!-- gatcha pull button -->
 		<GatchaButton :gameState="gameState"/>
 
+		</div>
+
+		<!-- layer that animates for beginning of pull -->
+		<GatchaPullOverlay v-if="gameState.doingPull.value" />
+
 	</div>
 
 </template>
@@ -49,6 +56,7 @@ import MenuIcon from './MenuIcon.vue';
 import CatsMenu from './CatsMenu.vue';
 import GatchaMenu from './GatchaMenu.vue';
 import GatchaButton from './GatchaButton.vue';
+import GatchaPullOverlay from './GatchaPullOverlay.vue';
 
 // app
 import { Game } from '../classes/Game';
