@@ -149,9 +149,9 @@ export class Game {
 		this.modalManager.showModal('Click the present to unwrap it!', 'Hey You!', () => {
 			this.mode.value = Game.MODE.UNPACKING;
 
-			// skip unpacking for now
-			this.mode.value = Game.MODE.PLAYING;
-			this.scene.$('#GiftBox').visible = false;
+			// enable for debug (skip unpacking for now)
+			// this.mode.value = Game.MODE.PLAYING;
+			// this.scene.$('#GiftBox').visible = false;
 		});
 
 		// set up a raycaster looking for our cats
@@ -321,19 +321,23 @@ export class Game {
 
 		// add pulls based on how many cats we've found
 		const totalCatsFound = foundCats.filter(cat => cat.found).length;
-		this.gatchaPulls.value += totalCatsFound;
+		this.gatchaPulls.value += 2;
 
 		// gatcha always unlocked if at least one cat found
 		this.gatchaUnlocked.value = true;
 
 		// show a toast message
-		this.toastManager.showToastMsg(`You found ${foundCat.name} Kitteh!`, `+${totalCatsFound} Gatcha Pulls!`);
+		this.toastManager.showToastMsg(`You found ${foundCat.name} Kitteh!`, `+${2} Gatcha Pulls!`);
 
 		// if we found all the cats, show the modal
 		if(this.allCatsFound.value){
 			this.modalManager.showModal('You found all the kittehs!', 'Congratulations!');
 			this.gatchaPulls.value += 69;
 		}
+
+		// if we found all the quotes, clear pulls
+		if(this.allGatchaQuotesFound.value)
+			this.gatchaPulls.value = 0;
 	}
 
 
@@ -351,7 +355,7 @@ export class Game {
 			return;
 
 		// decrement the pulls
-		// this.gatchaPulls.value--;
+		this.gatchaPulls.value--;
 
 		// show the gatcha menu
 		this.doingPull.value = true;

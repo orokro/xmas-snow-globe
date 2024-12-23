@@ -33,17 +33,17 @@ class CapsuleAnimator {
 			{ key: 'Shrink', from: 1, to: 0, start: 0, duration: 0.5 },
 			{ key: 'Move_Up', from: 0, to: 1, start: 0.5, duration: 0.3 },
 			{ key: 'Open', from: 0, to: 1, start: 0.8, duration: 0.3 },
-			{ key: 'Unfold_AY', from: 0, to: 1, start: 1.1, duration: 0.25, easing: 'inOut' },
-			{ key: 'Unfold_AY', from: 1, to: 0, start: 1.35, duration: 0.25, easing: 'inOut' },
-			{ key: 'Unfold_AX', from: 0, to: 1, start: 1.1, duration: 0.5 },
-			{ key: 'Unfold_BY', from: 0, to: 1, start: 1.6, duration: 0.25, easing: 'inOut' },
-			{ key: 'Unfold_BY', from: 1, to: 0, start: 1.85, duration: 0.25, easing: 'inOut' },
-			{ key: 'Unfold_BZ', from: 0, to: 1, start: 1.6, duration: 0.5 },
-			{ key: 'Center_Paper', from: 0, to: 1, start: 1.1, duration: 0.75 }
+			{ key: 'Unfold_AY', from: 0, to: 1, start: 1.1, duration: 0.20, easing: 'inOut' },
+			{ key: 'Unfold_AY', from: 1, to: 0, start: 1.30, duration: 0.20, easing: 'inOut' },
+			{ key: 'Unfold_AX', from: 0, to: 1, start: 1.1, duration: 0.4 },
+			{ key: 'Unfold_BY', from: 0, to: 1, start: 1.5, duration: 0.20, easing: 'inOut' },
+			{ key: 'Unfold_BY', from: 1, to: 0, start: 1.7, duration: 0.20, easing: 'inOut' },
+			{ key: 'Unfold_BZ', from: 0, to: 1, start: 1.5, duration: 0.4 },
+			{ key: 'Center_Paper', from: 0, to: 1, start: 1.1, duration: 0.8 }
 		];
 
 		// Total time from start to finish of all animations
-		this.totalDuration = 2.1;
+		this.totalDuration = 1.8;
 	}
 
 

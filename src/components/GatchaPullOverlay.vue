@@ -92,7 +92,7 @@ onMounted(() => {
 	// horizontal animation takes 1 second, so start the vertical stage after that
 	setTimeout(() => {
 		stage.value = STAGE.VERTICAL;
-	}, 1400);
+	}, 1200);
 
 });
 
