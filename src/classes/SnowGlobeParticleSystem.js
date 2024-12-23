@@ -178,8 +178,15 @@ export class SnowGlobeParticleSystem extends THREE.Object3D {
 
 			positions.setXYZ(i, newPos.x, newPos.y, newPos.z);
 
-			// apply some gravity
-			velocities.setY(i, velocities.getY(i) - 0.00005);
+			// if the particle is below the ground, bounce it back up
+			const bottomLimit = -this.radius*0.995;
+			if (newPos.y < bottomLimit) {
+				velocities.setY(i, 0);
+				newPos.setY(bottomLimit);
+			}else{
+				// apply some gravity
+				velocities.setY(i, velocities.getY(i) - 0.00005);
+			}
 		}
 
 		positions.needsUpdate = true;
