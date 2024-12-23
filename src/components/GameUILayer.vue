@@ -33,6 +33,9 @@
 			@click="toggleGatchaMenu"
 		/>
 
+		<!-- gatcha pull button -->
+		<GatchaButton :gameState="gameState"/>
+
 	</div>
 
 </template>
@@ -45,6 +48,7 @@ import { ref, onMounted } from 'vue';
 import MenuIcon from './MenuIcon.vue';
 import CatsMenu from './CatsMenu.vue';
 import GatchaMenu from './GatchaMenu.vue';
+import GatchaButton from './GatchaButton.vue';
 
 // app
 import { Game } from '../classes/Game';

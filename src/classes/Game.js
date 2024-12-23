@@ -109,6 +109,14 @@ export class Game {
 		// scramble the quotes
 		quotes = quotes.sort(() => Math.random() - 0.5);
 		this.gatchaQuotesSeen.value = quotes;
+
+		// reset these variables to defaults
+		this.allCatsFound.value = false;
+		this.allGatchaQuotesFound.value = false;
+		this.catsMenuCount.value = 0;
+		this.gatchaMenuCount.value = 0;
+		this.gatchaPulls.value = 0;
+		this.gatchaUnlocked.value = false;
 	}
 
 
@@ -120,11 +128,8 @@ export class Game {
 		// begin unpacking the snow globe
 		this.mode = Game.MODE.UNPACKING;
 
-		// for debug
-		console.log('game begin', this);
-
 		//show first modal
-		this.modalManager.showModal('Find some hidden kittehs!', 'Hey You', () => {
+		this.modalManager.showModal('Find some hidden kittehs!', 'Hey You!', () => {
 			this.mode = Game.MODE.PLAYING;
 		});
 
