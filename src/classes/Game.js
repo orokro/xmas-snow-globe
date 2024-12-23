@@ -13,6 +13,7 @@ import { ref, shallowRef, reactive } from 'vue';
 // app imports
 import ThreeScene from './ThreeScene';
 import RaycasterManager from './RaycasterManager';
+import ToastManager from './ToastManager';
 
 // import our data
 import { cats, gatchaQuotes } from './Data';
@@ -37,10 +38,11 @@ export class Game {
 	 *
 	 * @param {ThreeScene} scene - reference to the ThreeJS scene that was
 	 */
-	constructor(scene){
+	constructor(scene, toastManager){
 
-		// save our scene
+		// save our scene & state managers
 		this.scene = scene;
+		this.toastManager = toastManager;
 
 		// true until scene is ready
 		this.mode = ref(Game.MODE.LOADING);
@@ -61,6 +63,12 @@ export class Game {
 		// based on how many we found since the last time they opened the menu
 		this.catsMenuCount = ref(0);
 		this.gatchaMenuCount = ref(0);
+
+		// the number of pulls the user has unlocked
+		this.gatchaPulls = ref(0);
+
+		// true after we have at least one pull
+		this.gatchaUnlocked = ref(false);
 
 		// initialize our game
 		this.initGame();
@@ -242,6 +250,17 @@ export class Game {
 		// play that sound now
 		const audio = new Audio('/assets/sfx/meow.mp3');
 		audio.play();
+
+		// add pulls based on how many cats we've found
+		const totalCatsFound = foundCats.filter(cat => cat.found).length;
+		this.gatchaPulls.value += totalCatsFound;
+
+		// gatcha always unlocked if at least one cat found
+		this.gatchaUnlocked.value = true;
+
+		// show a toast message
+		this.toastManager.showToastMsg(`You found ${foundCat.name} Kitteh!`, `+${totalCatsFound} Gatcha Pulls!`);
+
 	}
 
 }

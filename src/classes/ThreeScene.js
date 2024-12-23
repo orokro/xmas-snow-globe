@@ -230,7 +230,7 @@ export default class ThreeScene {
 		// get the glass material of the globe
 		const globeGlassMaterial = this.$('#GlobeGlass').material;
 		globeGlassMaterial.envMap = this.reflectionMap;
-		globeGlassMaterial.envMapIntensity = 2.0;
+		globeGlassMaterial.envMapIntensity = 20.0;
 		const colorWhite = 0.05;
 		globeGlassMaterial.color.r = colorWhite;
 		globeGlassMaterial.color.g = colorWhite;

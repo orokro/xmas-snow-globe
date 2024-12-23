@@ -21,7 +21,7 @@
 		</div>
 
 		<!-- the quote text -->
-		<div class="quote">
+		<div class="quote" :class="{ unFound: !quoteSettings.found }">
 			{{ quoteSettings.text }}
 		</div>
 
@@ -60,6 +60,7 @@ const quoteSettings = computed(() => {
 		return {
 			from: props.quote.from,
 			text: props.quote.text,
+			found: true,
 		};
 	}
 
@@ -68,6 +69,7 @@ const quoteSettings = computed(() => {
 		return {
 			from: '',
 			text: '???',
+			found: false,
 		};
 	};
 
@@ -121,8 +123,16 @@ const quoteSettings = computed(() => {
 			// center text, and use ellipsis for overflow
 			text-align: center;
 			white-space: nowrap;
-
 			padding: 0px 10px;
+
+			// before found
+			&.unFound {
+				color: #666;
+				font-size: 32px;
+				font-weight: bolder;
+				top: 2px;
+			}
+
 			// add ellipses for overflow
 			overflow: hidden;
 			text-overflow: ellipsis;

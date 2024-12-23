@@ -17,6 +17,8 @@
 		<!-- this layer holds all the UI for the various game modes -->
 		<GameUILayer :scene="scene" :gameState="game"/>
 
+		<!-- show toasts if any queued up -->
+		<ToastMsg :toastManager="toastManager"/>
 	</main>
 </template>
 <script setup>
@@ -25,19 +27,25 @@
 import BackgroundLayers from './components/BackgroundLayers.vue';
 import ThreeSceneLayer from './components/ThreeSceneLayer.vue';
 import GameUILayer from './components/GameUILayer.vue';
+import ToastMsg from './components/ToastMsg.vue';
 
 // app / misc
 import ThreeScene from './classes/ThreeScene';
 import { Game } from './classes/Game';
+import ToastManager from './classes/ToastManager';
 
 // create a new ThreeJS scene
 const scene = new ThreeScene();
 
+// make a couple managers before we make our game
+const toastManager = new ToastManager(3);
+
 // make a new instance of our game object
-const game = new Game(scene);
+const game = new Game(scene, toastManager);
 
 // for debugging & ez access
 window.s = scene;
+window.t = toastManager;
 window.g = game;
 
 </script>
