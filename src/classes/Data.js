@@ -183,4 +183,8 @@ export const gatchaQuotes = [
 		from: 'Wooderson',
 		text: 'Merry Christmas to the greatest space alien, idol, maid(failure)',
 	},
+	{
+		from: 'Abysmal',
+		text: 'Reliiiiii!! While I haven\'t been here long, it\'s been extremely entertaining watching you and your community grow. Anytime I catch you or a VOD I know I\'m in for a good laugh and a great time. Thanks for sharing that golden personality with us! ✌️😁 I\'ll always be wishing you the best!',
+	}
 ];
