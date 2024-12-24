@@ -42,13 +42,15 @@ export class Game {
 	 * @param {ThreeScene} scene - reference to the ThreeJS scene that was
 	 * @param {ToastManager} toastManager - reference to the ToastManager
 	 * @param {ModalManager} modalManager - reference to the ModalManager
+	 * @param {BGMPlayer} bgmPlayer - reference to the BGMPlayer
 	 */
-	constructor(scene, toastManager, modalManager){
+	constructor(scene, toastManager, modalManager, bgmPlayer){
 
 		// save our scene & state managers
 		this.scene = scene;
 		this.toastManager = toastManager;
 		this.modalManager = modalManager;
+		this.bgmPlayer = bgmPlayer;
 
 		// true until scene is ready
 		this.mode = ref(Game.MODE.LOADING);
@@ -359,6 +361,11 @@ export class Game {
 
 		// show the gatcha menu
 		this.doingPull.value = true;
+
+		// play the gatcha theme in a short time
+		setTimeout(()=>{
+			this.bgmPlayer.playGatchaTheme();
+		}, 750);
 
 		// hide the UI after 1 second
 		setTimeout(()=>{

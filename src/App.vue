@@ -45,16 +45,17 @@ import BGMPlayer from './classes/BGMPlayer';
 const scene = new ThreeScene();
 
 // make new BGM player waiting for first window click
-const bgmPlayer = new BGMPlayer('assets/sfx/2024_reli-xmas.mp3');
+const bgmPlayer = new BGMPlayer();
 
 // make a couple managers before we make our game
 const toastManager = new ToastManager(3);
 const modalManager = new ModalManager();
 
 // make a new instance of our game object
-const game = new Game(scene, toastManager, modalManager);
+const game = new Game(scene, toastManager, modalManager, bgmPlayer);
 
 // for debugging & ez access
+window.b = bgmPlayer;
 window.s = scene;
 window.t = toastManager;
 window.m = modalManager;

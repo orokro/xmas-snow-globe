@@ -5,59 +5,91 @@
 	The BGMPlayer class is a simple class that plays background music when the user clicks on the window.
 */
 
-// Main class
+// main class export
 class BGMPlayer {
 
+
 	/**
+	 * Constructs the BGMPlayer
+	 */
+	constructor() {
+
+
+		// Create audio objects for both themes
+		this.bgm = new Audio('assets/sfx/zbot_theme.mp3');
+		this.gatchaTheme = new Audio('assets/sfx/zbot_gatcha.mp3');
+
+		// Enable looping for background music
+		this.bgm.loop = true;
+
+		// A flag to control the initial play action
+		this.initialized = false;
+
+		// Setup event listener to start the BGM on the first user interaction
+		window.addEventListener('click', () => {
+			if (!this.initialized) {
+				this.bgm.play();
+				this.initialized = true;
+			}
+		}, { once: true });
+	}
+
+
+	/**
+	 * Temporarily interrupts the BGM music to play the gatcha theme
+	 */
+	playGatchaTheme() {
+
+		// Gradually reduce the volume of the main BGM
+		this.fadeVolume(this.bgm, 1, 0, 1000, () => {
+
+			// Once volume is faded out, play the gatcha theme
+			this.gatchaTheme.play();
+
+			// Listen for when the gatcha theme has finished playing
+			this.gatchaTheme.onended = () => {
+
+				// Once gatcha theme is complete, fade BGM back in
+				this.fadeVolume(this.bgm, 0, 1, 1000);
+			};
+		});
+	}
+
+
+	/**
+	 * Fades the volume of an audio object
 	 *
-	 * @param {String} filePath - path to it
+	 * @param {Audio} audio - the audio object to fade
+	 * @param {Number} startVolume - the starting volume
+	 * @param {Number} endVolume - the ending volume
+	 * @param {Number} duration - the duration of the fade in milliseconds
+	 * @param {Function} callback - the method to call when the fade is complete
 	 */
-	constructor(filePath) {
+	fadeVolume(audio, startVolume, endVolume, duration, callback) {
 
-		this.audioFile = filePath;
-		this.audio = new Audio(this.audioFile);
-		this.audio.loop = true;
-		this.hasStarted = false;
 
-		// set up our event waiting for the first click
-		this.init();
+		// Number of steps to fade & some time calculations
+		const steps = 50;
+		const stepTime = duration / steps;
+		const volumeStep = (endVolume - startVolume) / steps;
+		let currentStep = 0;
+
+		// Set the initial volume
+		audio.volume = startVolume;
+
+		// Start the interval to fade the volume
+		const interval = setInterval(() => {
+
+			if (currentStep >= steps) {
+				clearInterval(interval);
+				if (callback) callback();
+			} else {
+				currentStep++;
+				audio.volume += volumeStep;
+			}
+
+		}, stepTime);
 	}
-
-
-	/**
-	 * Initializes the BGMPlayer
-	 */
-	init() {
-		// Add a click event listener to the window that triggers audio playback
-		window.addEventListener('click', this.handleFirstClick);
-	}
-
-
-	/**
-	 * Starts the audio playback
-	 */
-	start() {
-		if (!this.hasStarted) {
-			this.audio.play()
-				.then(() => {
-					console.log('Playback has started successfully.');
-				})
-				.catch(error => {
-					console.error('Error occurred during playback:', error);
-				});
-			this.hasStarted = true; // Set the flag to true after starting playback
-			window.removeEventListener('click', this.handleFirstClick); // Remove the event listener
-		}
-	}
-
-
-	/**
-	 * Handles the first click event
-	 */
-	handleFirstClick = () => {
-		this.start();
-	};
-
 
 }
 
