@@ -175,5 +175,12 @@ export const gatchaQuotes = [
 		from: 'Drewus Maximus',
 		text: 'cookie when she heard what Santa eats',
 	},
-
+	{
+		from: 'Wooderson',
+		text: '“I love chicken katsu, on a bed of rice, that shit slaps my nuts." -Aurelia Cassiopeia, 2024',
+	},
+	{
+		from: 'Wooderson',
+		text: 'Merry Christmas to the greatest space alien, idol, maid(failure)',
+	},
 ];
