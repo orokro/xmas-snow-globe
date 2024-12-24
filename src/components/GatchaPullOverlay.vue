@@ -117,7 +117,7 @@ onMounted(() => {
 
 			// take up 1/5th of the screen horizontally
 			width: 20%;
-			height: 100%;
+			height: 110%;
 			position: absolute;
 
 			// animate in from left
@@ -144,11 +144,11 @@ onMounted(() => {
 				color: white;
 			}// .letter
 
-			&.curtain1 { left: -20%; top: 0%; }
-			&.curtain2 { left: -20%; top: 0%; }
-			&.curtain3 { left: -20%; top: 0%; }
-			&.curtain4 { left: -20%; top: 0%; }
-			&.curtain5 { left: -20%; top: 0%; }
+			&.curtain1 { left: -20%; top: -5%; }
+			&.curtain2 { left: -20%; top: -5%; }
+			&.curtain3 { left: -20%; top: -5%; }
+			&.curtain4 { left: -20%; top: -5%; }
+			&.curtain5 { left: -20%; top: -5%; }
 
 		}// .curtain
 
@@ -174,20 +174,20 @@ onMounted(() => {
 			.curtain5 { left: 80%; }
 
 			.reli {
-				left: 90%;
+				left: 92%;
 			}
 		}// &.horizontal
 
 		// first stage - curtains & reli move in left-to-right horizontally
 		&.vertical {
-			.curtain1 { left: 0%;  top:  100%; }
-			.curtain2 { left: 20%; top: -100%;}
-			.curtain3 { left: 40%; top:  100%; }
-			.curtain4 { left: 60%; top: -100%;}
-			.curtain5 { left: 80%; top:  100%; }
+			.curtain1 { left: 0%;  top:  110%; }
+			.curtain2 { left: 20%; top: -110%;}
+			.curtain3 { left: 40%; top:  110%; }
+			.curtain4 { left: 60%; top: -110%;}
+			.curtain5 { left: 80%; top:  110%; }
 
 			.reli {
-				left: 90%;
+				left: 92%;
 			}
 		}// &.horizontal
 

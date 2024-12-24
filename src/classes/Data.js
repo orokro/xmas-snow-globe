@@ -203,4 +203,8 @@ export const gatchaQuotes = [
 		from: 'ZbotZero',
 		text: '“She’s gonna cry happy again”',
 	},
+	{
+		from: 'ZbotZero',
+		text: 'We pulling out the big tears every time',
+	}
 ];

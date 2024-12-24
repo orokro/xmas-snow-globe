@@ -27,9 +27,7 @@
 			</div>
 
 			<!-- the main message text -->
-			<div class="modalMessage">
-				{{ props.modalManager.currentMessage.value.message }}
-			</div>
+			<div v-html="props.modalManager.currentMessage.value.message" class="modalMessage" ></div>
 
 			<!-- the close button -->
 			<div class="closeButtonRow">

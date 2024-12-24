@@ -412,10 +412,12 @@ export class Game {
 		// get the first quote that has force_first set true
 		let quote = quotes.find(quote => quote.force_first && !quote.found);
 
-		// if we didn't find one, pick a random one
+		// if we didn't find one, pick a random one, make sure its a random not just the next available one
 		if(!quote){
-			quote = quotes.find(quote => !quote.found);
+			const unseenQuotes = quotes.filter(quote => !quote.found);
+			quote = unseenQuotes[Math.floor(Math.random() * unseenQuotes.length)];
 		}
+
 
 		if(quote){
 			quote.found = true;
@@ -437,6 +439,7 @@ export class Game {
 		}
 
 	}
+
 
 	/**
 	 * Completes the gatcha pull sequence & closes the UI / resets variables

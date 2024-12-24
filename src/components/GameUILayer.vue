@@ -37,7 +37,7 @@
 			/>
 
 			<!-- our controls panel -->
-			<ControlsPanel />
+			<ControlsPanel :modalManager="gameState.modalManager" />
 
 			<!-- gatcha pull button -->
 			<GatchaButton :gameState="gameState"/>
