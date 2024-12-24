@@ -76,11 +76,19 @@ export const gatchaQuotes = [
 
 	{
 		from: 'Orokro',
-		text: 'I am the one who knocks!',
+		text: 'The scuff in this xMas gatcha is real',
 	},
 	{
 		from: 'Orokro',
-		text: 'I am the one who meows!',
+		text: 'Last rizzmas I gave you my Gyatt. This rizzmas ILL FN DO IT AGAIN',
+	},
+	{
+		from: 'Cookie',
+		text: 'Meowy Christmas!',
+	},
+	{
+		from: 'Cookie',
+		text: 'Feed me mother!',
 	},
 	{
 		from: 'Orokro',
@@ -155,4 +163,17 @@ export const gatchaQuotes = [
 		from: 'Zach M',
 		text: 'Aurelia, My last two brain cells were so busy competing for third place that they both came in fourth, trying to write this message; Anyways………..HERES TO CELEBRATING SOME HAPPY HOLIDAYS AND TO MANY MORE!!!!! 🍺',
 	},
+	{
+		from: 'Drewus Maximus',
+		text: 'MERRY CHRISTMAS TO OUR BESTEST IDOL ALIEN! Hope you have a nice holiday and all your dreams come true next year 💜',
+	},
+	{
+		from: 'Drewus Maximus',
+		text: 'Skibidi Reli in Fortnite',
+	},
+	{
+		from: 'Drewus Maximus',
+		text: 'cookie when she heard what Santa eats',
+	},
+
 ];
