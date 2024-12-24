@@ -39,9 +39,13 @@ import ThreeScene from './classes/ThreeScene';
 import { Game } from './classes/Game';
 import ToastManager from './classes/ToastManager';
 import ModalManager from './classes/ModalManager';
+import BGMPlayer from './classes/BGMPlayer';
 
 // create a new ThreeJS scene
 const scene = new ThreeScene();
+
+// make new BGM player waiting for first window click
+const bgmPlayer = new BGMPlayer('assets/sfx/2024_reli-xmas.mp3');
 
 // make a couple managers before we make our game
 const toastManager = new ToastManager(3);
