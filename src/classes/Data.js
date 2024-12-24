@@ -186,5 +186,22 @@ export const gatchaQuotes = [
 	{
 		from: 'Abysmal',
 		text: 'Reliiiiii!! While I haven\'t been here long, it\'s been extremely entertaining watching you and your community grow. Anytime I catch you or a VOD I know I\'m in for a good laugh and a great time. Thanks for sharing that golden personality with us! ✌️😁 I\'ll always be wishing you the best!',
-	}
+	},
+	,
+	{
+		from: 'TomtheIronMan',
+		text: '“Oh man, I’m gonna be #FreakinIt” - every time playing RE2',
+	},
+	{
+		from: 'TomtheIronMan',
+		text: '"All my cards are ASS"',
+	},
+	{
+		from: 'ZbotZero',
+		text: 'I like porple',
+	},
+	{
+		from: 'ZbotZero',
+		text: '“She’s gonna cry happy again”',
+	},
 ];
