@@ -33,6 +33,9 @@ class PullCameraAnimator {
 		// convert seconds to milliseconds while we're at it
 		this.sweepLength = sweepLength * 1000;
 
+		// keep track of the last target we used so we can make sure to loop through all of them
+		this.lastTargetIndex = -1;
+
 		// used for animation state
 		this.currentSweep = 0;
 		this.animating = false;
@@ -63,6 +66,30 @@ class PullCameraAnimator {
 
 
 	/**
+	 * Gets a random target and child to focus on
+	 *
+	 * @returns {Object} - the target and child to focus on
+	 */
+	getRandomTarget() {
+
+		// increment the target index
+		this.lastTargetIndex++;
+
+		// if we've looped through all the targets, reset the index, and shuffle the array
+		if (this.lastTargetIndex >= this.targets.length) {
+			this.lastTargetIndex = 0;
+			this.targets.sort(() => Math.random() - 0.5);
+		}
+
+		const target = this.targets[this.lastTargetIndex];
+		const childIndex = Math.floor(Math.random() * target.children.length);
+		const child = target.children[childIndex];
+
+		return { target, child };
+	}
+
+
+	/**
 	 * Starts the next sweep of the camera
 	 */
 	nextSweep() {
@@ -71,10 +98,7 @@ class PullCameraAnimator {
 		if (this.currentSweep < this.sweepCount) {
 
 			// pick a random target and child
-			const targetIndex = Math.floor(Math.random() * this.targets.length);
-			const target = this.targets[targetIndex];
-			const childIndex = Math.floor(Math.random() * target.children.length);
-			const child = target.children[childIndex];
+			const { target, child } = this.getRandomTarget();
 
 			// get the world positions of the target and child
 			const targetWorldPosition = new THREE.Vector3();

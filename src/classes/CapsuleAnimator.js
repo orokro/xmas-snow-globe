@@ -8,6 +8,9 @@
 // three
 import * as THREE from 'three';
 
+// chroma for color manipulation
+import chroma from 'chroma-js';
+
 // main class
 class CapsuleAnimator {
 
@@ -104,6 +107,12 @@ class CapsuleAnimator {
 	start(onComplete=null) {
 
 		this.onComplete = onComplete || this.onComplete;
+
+		// randomly color the capsule's second material (the opaque one),
+		// using chromajs to get a 75% saturated color, any hue, and a lightness of 50%
+		const randomColor = chroma.hsl(Math.random() * 360, 0.75, 0.5).hex();
+		this.objects[1].material.color.set(randomColor);
+
 
 		this.clock.start();
 		requestAnimationFrame(this.animate.bind(this));
