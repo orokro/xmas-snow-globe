@@ -206,5 +206,13 @@ export const gatchaQuotes = [
 	{
 		from: 'ZbotZero',
 		text: 'We pulling out the big tears every time',
+	},
+	{
+		from: 'Lethia',
+		text: 'Dear Aurelia, THANK YOU FOR BEING SUCH A FANTASTIC GENMATE!!! You are so freaking talented, and I am floored by both the caliber of your content and how many talents you have. Singing? ✅  Sewing? ✅ Being V-Moe\'s lil freak? ✅ ✅ ✅  I could not imagine Moe-Kyun without you my dear alien. HERE\'S TO MORE SHENANIGANS YIPPEE!!!! 🥳 🥳',
+	},
+	{
+		from: 'Lethia',
+		text: 'What\'s an alien\'s favorite holiday treat? Hot cocoa with martian-mellows!!! 👽 ☕',
 	}
 ];
