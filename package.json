@@ -1,28 +1,28 @@
 {
-  "name": "xmas-snow-globe",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --fix"
-  },
-  "dependencies": {
-    "@tweenjs/tween.js": "^25.0.0",
-    "chroma-js": "^2.4.2",
-    "sass": "^1.83.0",
-    "three": "^0.157.0",
-    "three-addons": "^1.2.0",
-    "vue": "^3.5.13"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.14.0",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "eslint": "^9.14.0",
-    "eslint-plugin-vue": "^9.30.0",
-    "vite": "^6.0.1",
-    "vite-plugin-vue-devtools": "^7.6.5"
-  }
+	"name": "xmas-snow-globe",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite --host",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --fix"
+	},
+	"dependencies": {
+		"@tweenjs/tween.js": "^25.0.0",
+		"chroma-js": "^2.4.2",
+		"sass": "^1.83.0",
+		"three": "^0.157.0",
+		"three-addons": "^1.2.0",
+		"vue": "^3.5.13"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.14.0",
+		"@vitejs/plugin-vue": "^5.2.1",
+		"eslint": "^9.14.0",
+		"eslint-plugin-vue": "^9.30.0",
+		"vite": "^6.0.1",
+		"vite-plugin-vue-devtools": "^7.6.5"
+	}
 }

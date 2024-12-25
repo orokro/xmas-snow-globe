@@ -186,7 +186,7 @@ export class Game {
 			this.buildKittehRaycaster();
 
 			// build a camera animator for when we do gatcha pulls later on
-			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 2, 4, 0.7);
+			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 2, 0.75, 1.2);
 
 			// build a capsule animator for when we do gatcha pulls later on
 			this.capsuleAnimator = new CapsuleAnimator(this.scene.$('#Capsule').children, () => {});
