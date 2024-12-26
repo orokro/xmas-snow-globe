@@ -189,7 +189,7 @@ export class Game {
 			this.pullCameraAnimator = new PullCameraAnimator(this.scene.pullCamera, this.scene.$('.f_targ'), 2, 0.75, 1.2);
 
 			// build a capsule animator for when we do gatcha pulls later on
-			this.capsuleAnimator = new CapsuleAnimator(this.scene.$('#Capsule').children, () => {});
+			this.capsuleAnimator = new CapsuleAnimator(this.scene.$('#Capsule').children, this.scene, () => {});
 
 		}, 500);
 	}

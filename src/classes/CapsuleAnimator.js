@@ -5,11 +5,13 @@
 	This file provides a class that handles the complex animation of a capsule object.
 */
 
-// three
+// three & third party libs
 import * as THREE from 'three';
-
-// chroma for color manipulation
 import chroma from 'chroma-js';
+import TWEEN from '@tweenjs/tween.js';
+
+// app
+import ThreeScene from './ThreeScene';
 
 // main class
 class CapsuleAnimator {
@@ -18,9 +20,13 @@ class CapsuleAnimator {
 	 * Constructs the CapsuleAnimator
 	 *
 	 * @param {THREE.Object3D} objects - the object to animate
+	 * @param {ThreeScene} threeScene - the scene to animate in
 	 * @param {Function} onComplete - the method to call when the animation is complete
 	 */
-	constructor(objects, onComplete) {
+	constructor(objects, threeScene, onComplete) {
+
+		// save our threeJS scene
+		this.threeScene = threeScene;
 
 		// save the parts of the capsule (because threeJS makes a mesh for each material)
 		this.objects = objects;
@@ -134,6 +140,8 @@ class CapsuleAnimator {
 		const randomColor = chroma.hsl(Math.random() * 360, 0.75, 0.5).hex();
 		this.objects[1].material.color.set(randomColor);
 
+		// zoom camera out while we open the capsule
+		this.zoomOut(2);
 
 		this.clock.start();
 		requestAnimationFrame(this.animate.bind(this));
@@ -157,6 +165,65 @@ class CapsuleAnimator {
 			});
 		});
 
+	}
+
+
+	/**
+	 * Zooms the camera out from the capsule
+	 *
+	 * @param {Number} duration - the duration of the zoom out in seconds
+	 */
+	zoomOut(duration) {
+
+		// Check if the end position is defined, if not, initialize it
+		if (!this.capsuleCameraEndPos) {
+			this.capsuleCameraEndPos = this.threeScene.capsuleCamera.position.clone();
+		}
+
+		// Calculate the start position if not defined (1 meter in front of the end position)
+		if (!this.capsuleCameraStartPos) {
+
+			// Adjust this vector if you need a different front direction
+			this.capsuleCameraStartPos = this.capsuleCameraEndPos.clone().add(new THREE.Vector3(0, 0, 1));
+		}
+
+		// Randomly determine the roll direction: +7 or -7 degrees in radians
+		const rollDirection = Math.random() < 0.5 ? -1 : 1;
+		const startRoll = rollDirection * (7 * Math.PI / 180);
+		const endRoll = 0;
+
+		// Set initial position and rotation
+		this.threeScene.capsuleCamera.position.copy(this.capsuleCameraStartPos);
+		this.threeScene.capsuleCamera.rotation.z = startRoll;
+
+		// Create a TWEEN for moving and rolling the camera
+		const zoomTween = new TWEEN.Tween(
+			{
+				zr: startRoll,
+				x: this.capsuleCameraStartPos.x,
+				y: this.capsuleCameraStartPos.y,
+				z: this.capsuleCameraStartPos.z
+			})
+			.to({
+				zr: endRoll,
+				x: this.capsuleCameraEndPos.x,
+				y: this.capsuleCameraEndPos.y,
+				z: this.capsuleCameraEndPos.z
+			}, duration * 1000)
+			.onUpdate((obj) => {
+				this.threeScene.capsuleCamera.position.set(obj.x, obj.y, obj.z);
+				this.threeScene.capsuleCamera.rotation.z = obj.zr;
+			})
+			.easing(TWEEN.Easing.Cubic.Out) // This can be changed to any easing function
+			.start();
+
+		// Start the animation loop
+		const animate = () => {
+			requestAnimationFrame(animate);
+			zoomTween.update();
+		};
+
+		animate();
 	}
 
 }

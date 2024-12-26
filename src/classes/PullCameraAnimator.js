@@ -30,6 +30,9 @@ class PullCameraAnimator {
 		this.sweepCount = sweepCount;
 		this.startScale = startScale;
 
+		// always shuffle targets list once on start up
+		this.targets.sort(() => Math.random() - 0.5);
+
 		// convert seconds to milliseconds while we're at it
 		this.sweepLength = sweepLength * 1000;
 

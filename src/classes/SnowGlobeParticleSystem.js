@@ -87,7 +87,7 @@ export class SnowGlobeParticleSystem extends THREE.Object3D {
 		geometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocity, 3));
 
 		// create a new points material & system
-		const material = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.03 });
+		const material = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.06 });
 		this.particleSystem = new THREE.Points(geometry, material);
 		this.particles.add(this.particleSystem);
 
