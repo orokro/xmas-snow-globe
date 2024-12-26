@@ -51,6 +51,9 @@
 			<div class="closeButtonRow">
 				<button @click="gameState.completePull()">Close</button>
 			</div>
+
+			<!-- the graphic of reli pointing, a child of the quote box so we can animated it easily -->
+			<div class="reliPointing"></div>
 		</div>
 
 	</div>
@@ -249,6 +252,44 @@ onMounted(() => {
 				}// button
 
 			}// .closeButtonRow
+
+			// reli pointing graphic
+			.reliPointing {
+
+				// position bottom left of the quote box
+				position: absolute;
+				bottom: -1380px;
+				left: -5%;
+				transform: translate(-50%, -50%);
+
+				// pointy reli
+				background: url('../assets/img/reli_pointing.png') no-repeat;
+				background-size: contain;
+				width: 100px;
+				height: 100px;
+
+				// background: white !important;
+				width: 300px;
+				height: 300px;
+
+				// animate in
+				transition: bottom 1s ease;
+
+				&.show {
+					bottom: 380px;
+				}
+
+				// animate bottom from -1380px to 380px using keyframes, no repeat
+				animation: reliPointing 1s ease forwards;
+
+
+			}// .reliPointing
+
+			// keyframes for the reli pointing animation
+			@keyframes reliPointing {
+				0% { bottom: -1380px; }
+				100% { bottom: -380px; }
+			}// @keyframes reliPointing
 
 		}// .quoteBox
 
