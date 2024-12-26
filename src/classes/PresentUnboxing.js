@@ -40,9 +40,9 @@ class PresentUnboxing {
 		// define the steps including their shape keys & durations
 		this.steps = [
 			{ key: 'Bow_Off', duration: 0.6 },
-			{ key: ['Ribbon_A_1', 'Ribbon_A_2'], duration: [0.3, 0.4], sequential: true },
-			{ key: ['Ribbon_B_1', 'Ribbon_B_2'], duration: [0.3, 0.4], sequential: true },
-			{ key: 'Lid_Off', duration: 1.0 },
+			{ key: ['Ribbon_A_1', 'Ribbon_A_2'], duration: [0.3, 0.5], sequential: true },
+			{ key: ['Ribbon_B_1', 'Ribbon_B_2'], duration: [0.3, 0.5], sequential: true },
+			{ key: 'Lid_Off', duration: 0.7 },
 			{ key: 'Box_Off', duration: 0.7 }
 		];
 
@@ -104,6 +104,12 @@ class PresentUnboxing {
 		// set the animating flag
 		this.isAnimating = true;
 
+
+		// start the zoom out if we're on the last step
+		if (this.currentStep === this.steps.length - 1) {
+			this.zoomIn(1, ()=>{});
+		}
+
 		// get the step details
 		const step = this.steps[this.currentStep];
 		const animateSequentially = (index) => {
@@ -140,7 +146,9 @@ class PresentUnboxing {
 					this.isAnimating = false;
 					this.currentStep++;
 					if (this.currentStep === this.steps.length) {
-						this.zoomIn(0.5, this.onComplete);
+
+						if(this.onComplete && typeof this.onComplete === 'function')
+							this.onComplete();
 					}
 				}
 			};
@@ -178,7 +186,8 @@ class PresentUnboxing {
 					this.currentStep++;
 					if (this.currentStep === this.steps.length) {
 
-						this.zoomIn(0.5, this.onComplete);
+						if(this.onComplete && typeof this.onComplete === 'function')
+							this.onComplete();
 					}
 				}
 			};
