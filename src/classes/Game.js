@@ -345,22 +345,42 @@ export class Game {
 		const audio = new Audio('assets/sfx/meow.mp3');
 		audio.play();
 
-		// add pulls based on how many cats we've found
-		const totalCatsFound = foundCats.filter(cat => cat.found).length;
-		this.gatchaPulls.value += 2;
+		/*
+			There's only 12 cats in the cats array.
+
+			However, the array of quotes to pull can change as we add/remove them to the data.js file.
+
+			Therefore, we should do two things:
+			- when you find a cat, give the player totalQuotes/12 gatcha pulls, rounded down (i.e. floor(totalQuotes/12))
+			- when the player finds the last cat, the might not have enough pulls to get all the quotes
+			- so, when the player finds the last cat, we'll give them enough pulls to get all the quotes
+		*/
+		const totalQuotes = gatchaQuotes.length;
+		let pullsToAdd = Math.floor(totalQuotes/12);
+		this.gatchaPulls.value += pullsToAdd;
 
 		// gatcha always unlocked if at least one cat found
 		this.gatchaUnlocked.value = true;
-
-		// show a toast message
-		this.toastManager.showToastMsg(`You found ${foundCat.name} Kitteh!`, `+${2} Gatcha Pulls!`);
 
 		// if we found all the cats, show the modal
 		if(this.allCatsFound.value){
 			this.playSound(this.yaySound);
 			this.modalManager.showModal('You found all the kittehs!', 'Congratulations!');
-			this.gatchaPulls.value += 69;
+
+			// figure out how many quotes we still have unseen
+			const quotes = this.gatchaQuotesSeen.value;
+			const unseenQuotes = quotes.filter(quote => !quote.found);
+
+			// calc the difference so the toast is correct
+			pullsToAdd = unseenQuotes.length - this.gatchaPulls.value;
+
+			// if we have more unseen quotes than pulls, give the player enough pulls to get them all
+			if(unseenQuotes.length > this.gatchaPulls.value)
+				this.gatchaPulls.value = unseenQuotes.length;
 		}
+
+		// show a toast message
+		this.toastManager.showToastMsg(`You found ${foundCat.name} Kitteh!`, `+${pullsToAdd} Gatcha Pulls!`);
 
 		// if we found all the quotes, clear pulls
 		if(this.allGatchaQuotesFound.value){
