@@ -37,6 +37,10 @@ class PresentUnboxing {
 		this.currentStep = 0;
 		this.isAnimating = false;
 
+		// load the unwrapping sound at assets/sfx/unwrap.mp3
+		this.unwrappingSound = new Audio('assets/sfx/unwrap.mp3');
+		this.gatchaWoosh = new Audio('assets/sfx/gatcha_woosh.mp3');
+
 		// define the steps including their shape keys & durations
 		this.steps = [
 			{ key: 'Bow_Off', duration: 0.6 },
@@ -109,6 +113,10 @@ class PresentUnboxing {
 		if (this.currentStep === this.steps.length - 1) {
 			this.zoomIn(1, ()=>{});
 		}
+
+		// reset and play the unwrapping sound
+		this.unwrappingSound.currentTime = 0;
+		this.unwrappingSound.play();
 
 		// get the step details
 		const step = this.steps[this.currentStep];
@@ -212,16 +220,34 @@ class PresentUnboxing {
 	}
 
 
+
+	/**
+	 * Zoom into the globe after the unboxing
+	 *
+	 * @param {Number} duration - the duration of the zoom in seconds
+	 * @param {Function } onComplete - the method to call when the zoom is complete
+	 */
 	zoomIn(duration, onComplete) {
+
+		// play the zoom sfx
+		this.gatchaWoosh.currentTime = 0;
+		this.gatchaWoosh.play();
+
+		// Get the current zoom level
 		const startZoom = this.threeScene.camera.zoom;
-		const endZoom = startZoom * 2;  // Adjust this factor to control how much the camera zooms in
+
+		// Adjust this factor to control how much the camera zooms in
+		const endZoom = startZoom * 2;
 		const startTime = Date.now();
 		const endTime = startTime + duration * 1000;
 
+		// recursively animate the zoom
 		const animateZoom = () => {
-		  const currentTime = Date.now();
-		  const elapsed = currentTime - startTime;
-		  if (elapsed < duration * 1000) {
+
+
+			const currentTime = Date.now();
+			const elapsed = currentTime - startTime;
+			if (elapsed < duration * 1000) {
 
 				// Calculate the current frame's zoom level using linear interpolation
 				const t = THREE.MathUtils.smoothstep((elapsed / (duration * 1000)), 0, 1);
@@ -234,16 +260,17 @@ class PresentUnboxing {
 				this.threeScene.controls.update();  // Update the controls to reflect the new camera properties
 
 				requestAnimationFrame(animateZoom);  // Continue the animation
-		  } else {
-			// Set final zoom state to ensure it's exactly at endZoom
+			} else {
+
+				// Set final zoom state to ensure it's exactly at endZoom
 				this.threeScene.camera.zoom = endZoom;
 				this.threeScene.camera.updateProjectionMatrix();
 				this.threeScene.controls.update();
 
 				if (onComplete && typeof onComplete === 'function') {
-			  		onComplete();
+					onComplete();
 				}
-		  }
+			}
 		};
 
 		requestAnimationFrame(animateZoom);  // Start the animation

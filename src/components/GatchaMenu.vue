@@ -14,7 +14,7 @@
 		:tabLocation="121"
 	>
 		<!-- the header text for the menu -->
-		<h1>{{ gameState.allCatsFound.value ? 'All Quotes Found!' : 'Pull for Merry Quotes!' }}</h1>
+		<h1>{{ gameState.allGatchaQuotesFound.value ? 'All Quotes Found!' : 'Pull for Merry Quotes!' }}</h1>
 
 		<!-- loop to show quotes -->
 		<div class="quotesList scrollable-element">

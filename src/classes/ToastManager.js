@@ -77,7 +77,7 @@ class ToastManager {
 		setTimeout(() => {
 			const audio = new Audio('assets/sfx/ding.mp3');
 			audio.play();
-		}, 500);
+		}, 100);
 
 		// Clear any existing timer
 		if (this.timerId) {

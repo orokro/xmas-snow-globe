@@ -52,6 +52,12 @@ export class Game {
 		this.modalManager = modalManager;
 		this.bgmPlayer = bgmPlayer;
 
+		// load some sfx for the game
+		this.heySound = new Audio('assets/sfx/hey.mp3');
+		this.yaySound = new Audio('assets/sfx/yay.mp3');
+		this.gatchaWoosh = new Audio('assets/sfx/gatcha_woosh.mp3');
+		this.woosh = new Audio('assets/sfx/unwrap.mp3');
+
 		// true until scene is ready
 		this.mode = ref(Game.MODE.LOADING);
 
@@ -140,6 +146,19 @@ export class Game {
 
 
 	/**
+	 * This will play one of the sounds we build in the constructor
+	 *
+	 * @param {Audio} sound - one of the Audio objects we built in the constructor
+	 */
+	playSound(sound){
+
+		// reset the sound and play it
+		sound.currentTime = 0;
+		sound.play();
+	}
+
+
+	/**
 	 * This function will start the game
 	 */
 	beginGame(){
@@ -147,7 +166,8 @@ export class Game {
 		// begin unpacking the snow globe
 		this.mode.value = Game.MODE.UNPACKING;
 
-		//show first modal
+		//show first modal w/ sound
+		this.playSound(this.heySound);
 		this.modalManager.showModal('Click the present to unwrap it!', 'Hey You!', () => {
 			this.mode.value = Game.MODE.UNPACKING;
 
@@ -176,6 +196,7 @@ export class Game {
 				this.scene.$('#GiftBox').visible = false;
 
 				//show kitteh modal
+				this.playSound(this.heySound);
 				this.modalManager.showModal('Find some hidden kitties!', 'Hey You!', () => {
 
 				});
@@ -250,6 +271,9 @@ export class Game {
 	 * @param {Number} menu - one of the Game.MENU constants
 	 */
 	showMenu(menu){
+
+		// play the woosh sound for menus
+		this.playSound(this.woosh);
 
 		// if cats menu is open and we're trying to open it again, close it
 		if(menu === Game.MENU.CATS && this.catsMenuOpen.value){
@@ -333,13 +357,15 @@ export class Game {
 
 		// if we found all the cats, show the modal
 		if(this.allCatsFound.value){
+			this.playSound(this.yaySound);
 			this.modalManager.showModal('You found all the kittehs!', 'Congratulations!');
 			this.gatchaPulls.value += 69;
 		}
 
 		// if we found all the quotes, clear pulls
-		if(this.allGatchaQuotesFound.value)
+		if(this.allGatchaQuotesFound.value){
 			this.gatchaPulls.value = 0;
+		}
 	}
 
 
@@ -355,6 +381,9 @@ export class Game {
 		// if we're already doing a pull, ignore
 		if(this.doingPull.value)
 			return;
+
+		// play the gatcha woosh sound
+		this.playSound(this.gatchaWoosh);
 
 		// decrement the pulls
 		this.gatchaPulls.value--;
@@ -434,8 +463,11 @@ export class Game {
 			this.allGatchaQuotesFound.value = quotes.every(quote => quote.found);
 
 			// if so, zero out the pulls
-			if(this.allGatchaQuotesFound.value)
+			if(this.allGatchaQuotesFound.value){
+				this.playSound(this.yaySound);
+				this.modalManager.showModal('You found all the quotes!', 'Congratulations!');
 				this.gatchaPulls.value = 0;
+			}
 		}
 
 	}
