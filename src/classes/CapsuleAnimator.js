@@ -35,14 +35,14 @@ class CapsuleAnimator {
 		this.animations = [
 			{ key: 'Shrink', from: 1, to: 0, start: 0, duration: 0.5 },
 			{ key: 'Move_Up', from: 0, to: 1, start: 0.5, duration: 0.3 },
-			{ key: 'Open', from: 0, to: 1, start: 0.8, duration: 0.3 },
+			{ key: 'Open', from: 0, to: 1.05, start: 0.8, duration: 0.3 },
 			{ key: 'Unfold_AY', from: 0, to: 1, start: 1.1, duration: 0.20, easing: 'inOut' },
 			{ key: 'Unfold_AY', from: 1, to: 0, start: 1.30, duration: 0.20, easing: 'inOut' },
 			{ key: 'Unfold_AX', from: 0, to: 1, start: 1.1, duration: 0.4 },
 			{ key: 'Unfold_BY', from: 0, to: 1, start: 1.5, duration: 0.20, easing: 'inOut' },
 			{ key: 'Unfold_BY', from: 1, to: 0, start: 1.7, duration: 0.20, easing: 'inOut' },
 			{ key: 'Unfold_BZ', from: 0, to: 1, start: 1.5, duration: 0.4 },
-			{ key: 'Center_Paper', from: 0, to: 1, start: 1.1, duration: 0.8 }
+			{ key: 'Center_Paper', from: 0, to: 1.5, start: 1.1, duration: 0.8 }
 		];
 
 		// Total time from start to finish of all animations
@@ -58,6 +58,18 @@ class CapsuleAnimator {
 		// don't recurse if we're done
 		const elapsedTime = this.clock.getElapsedTime();
 		if (elapsedTime > this.totalDuration) {
+
+
+			// apply final morph target values
+			this.setMorpthTargetValue('Shrink', 0);
+			// this.setMorpthTargetValue('Move_Up', 0.9);
+			// this.setMorpthTargetValue('Open', 1);
+			this.setMorpthTargetValue('Unfold_AY', 0);
+			this.setMorpthTargetValue('Unfold_AX', 1);
+			this.setMorpthTargetValue('Unfold_BY', 0.6);
+			this.setMorpthTargetValue('Unfold_BZ', 0.7);
+			this.setMorpthTargetValue('Center_Paper', 1.35);
+
 			this.onComplete();
 			this.clock.stop();
 			return;
@@ -71,6 +83,15 @@ class CapsuleAnimator {
 		requestAnimationFrame(this.animate.bind(this));
 	}
 
+
+	setMorpthTargetValue(key, value) {
+
+		this.objects.forEach(obj => {
+			if (obj.morphTargetDictionary && obj.morphTargetDictionary[key] !== undefined) {
+				obj.morphTargetInfluences[obj.morphTargetDictionary[key]] = value;
+			}
+		});
+	}
 
 	/**
 	 * Applies the animation to the objects

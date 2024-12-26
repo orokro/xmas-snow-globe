@@ -64,7 +64,7 @@ export default class ThreeScene {
 
 		// make our main camera
 		this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-		const initialZoomScale = 0.5;
+		const initialZoomScale = 0.75;
 		this.camera.position.z = 10 * initialZoomScale;
 		this.camera.position.y = 7 * initialZoomScale;
 

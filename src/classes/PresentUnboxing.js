@@ -140,9 +140,7 @@ class PresentUnboxing {
 					this.isAnimating = false;
 					this.currentStep++;
 					if (this.currentStep === this.steps.length) {
-						if (this.onComplete) {
-							this.onComplete();
-						}
+						this.zoomIn(0.5, this.onComplete);
 					}
 				}
 			};
@@ -180,9 +178,7 @@ class PresentUnboxing {
 					this.currentStep++;
 					if (this.currentStep === this.steps.length) {
 
-						if (this.onComplete) {
-							this.onComplete();
-						}
+						this.zoomIn(0.5, this.onComplete);
 					}
 				}
 			};
@@ -204,6 +200,44 @@ class PresentUnboxing {
 		this.presentObj.morphTargetInfluences.forEach((_, i) => {
 			this.presentObj.morphTargetInfluences[i] = 0;
 		});
+	}
+
+
+	zoomIn(duration, onComplete) {
+		const startZoom = this.threeScene.camera.zoom;
+		const endZoom = startZoom * 2;  // Adjust this factor to control how much the camera zooms in
+		const startTime = Date.now();
+		const endTime = startTime + duration * 1000;
+
+		const animateZoom = () => {
+		  const currentTime = Date.now();
+		  const elapsed = currentTime - startTime;
+		  if (elapsed < duration * 1000) {
+
+				// Calculate the current frame's zoom level using linear interpolation
+				const t = THREE.MathUtils.smoothstep((elapsed / (duration * 1000)), 0, 1);
+				let zoom = startZoom + (endZoom - startZoom) * (t);
+
+
+				// Update the camera's zoom level and update the controls
+				this.threeScene.camera.zoom = zoom;
+				this.threeScene.camera.updateProjectionMatrix();  // Make sure to update the camera's matrix
+				this.threeScene.controls.update();  // Update the controls to reflect the new camera properties
+
+				requestAnimationFrame(animateZoom);  // Continue the animation
+		  } else {
+			// Set final zoom state to ensure it's exactly at endZoom
+				this.threeScene.camera.zoom = endZoom;
+				this.threeScene.camera.updateProjectionMatrix();
+				this.threeScene.controls.update();
+
+				if (onComplete && typeof onComplete === 'function') {
+			  		onComplete();
+				}
+		  }
+		};
+
+		requestAnimationFrame(animateZoom);  // Start the animation
 	}
 
 }
