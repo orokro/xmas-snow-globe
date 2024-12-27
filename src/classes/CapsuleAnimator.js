@@ -31,6 +31,9 @@ class CapsuleAnimator {
 		// save the parts of the capsule (because threeJS makes a mesh for each material)
 		this.objects = objects;
 
+		// make sure our objects have Unique materials since we'll be changing some props on 'em
+		this.cloneMaterials();
+
 		// save our callback for when animation is complete
 		this.onComplete = onComplete;
 
@@ -53,6 +56,18 @@ class CapsuleAnimator {
 
 		// Total time from start to finish of all animations
 		this.totalDuration = 1.8;
+	}
+
+
+	/**
+	 * Clones the materials on the objects, so we can animate them without affecting the original
+	 */
+	cloneMaterials() {
+
+		// clone the materials on the objects
+		this.objects.forEach(obj => {
+			obj.material = obj.material.clone();
+		});
 	}
 
 
