@@ -8,7 +8,7 @@
 */
 
 // vue
-import { ref, shallowRef, reactive } from 'vue';
+import { ref, shallowRef } from 'vue';
 
 // app imports
 import ThreeScene from './ThreeScene';
